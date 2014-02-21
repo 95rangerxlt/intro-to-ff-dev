@@ -1,0 +1,941 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<title>Developing Firefox for Fun and Profit</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=1274, user-scalable=no">
+	<link rel="stylesheet" href="themes/mozilla/styles/style.css">
+	<!--
+		To apply styles to the certain slides
+		use slide ID to get needed elements
+		-->
+	<style>
+		#Cover h2 {
+			color:#FFF;
+			text-align:center;
+			font-size:40px;
+			}
+		#FitToWidth h2,
+		#FitToHeight h2 {
+			color:#fff;
+			text-align:center;
+			}
+
+		.slide pre {
+		white-space: pre;
+		font-family: monospace;
+		}
+
+		.string {
+		  color: darkred
+		}
+
+		.number {
+		  color: darkblue
+		}
+
+		.keyword {
+		  font-weight: bold
+		}
+
+		table.bullets {
+		  border-collapse: separate;
+		  border-spacing: 1.2em 0.1em;
+                  smargin-top: -1.5em;
+		  sborder: 1px black solid;
+		}
+
+		table.bullets td > span:before {
+		  content: "\2022"
+		}
+
+		iframe {
+		  border: 1px solid black;
+		}
+
+		.smaller {
+		  font-size: smaller;
+		}
+
+		pre.code {
+		  background-color: lightgrey;
+		  padding: 0.4em;
+		  padding-bottom: 0em;
+		  margin-top: -1em;
+		}
+
+		.current {
+		  color: brown;
+		}
+
+		.titleshadow {
+		  text-shadow: 2px 2px 1px rgba(75, 75, 75, 1);
+		}
+	</style>
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>Developing Firefox for Fun and Profit</h1>
+		<p>Josh Matthews, Platform Engineer (Mozilla)</p>
+	</header>
+
+<!-- 
+	
+	Simply copy the whole block for each slide you want.
+	Special slides get extra classes. Each slide needs an ID 
+	to allow for bookmarking and target jumping.
+	
+	Images, videos and SVG objects are automatically centred.
+
+	If you add a "cover" class images are taking over the whole 
+	screen resized to height. Add a "w" class to resize to width.
+
+ -->
+	<div class="slide cover" id="Cover"><div>
+		<section>
+			<header>
+				<h2 class="titleshadow" style="font-size:larger">Developing <b>Firefox</b> for Fun and Profit<b/></h2>
+			</header>			
+			<img src="pictures/firefox_logo-only.svg" style="opacity: 0.4" alt="">
+			<footer class="byline titleshadow">			  
+			  <p>Josh Matthews, CUSEC 2014, 01/16/14</p>
+			  <p>Slides: <a style="color: white" href="http://www.joshmatthews.net/cusec14/">http://joshmatthews.net/cusec14/</a></p>
+			</footer>
+		</section>
+	</div></div>
+
+	<div class="slide" id="why"><div>
+		<section>
+			<header>
+				<h2>Why contribute to Mozilla Firefox?</h2>
+			</header>
+			<p>Help keep the web open.</p>
+			<p>Gain practical experience with 10M LOC.</p>
+			<p>Work on a wide variety of challenging technical problems.</p>
+		</section>
+	</div></div>
+
+	<div class="slide" id="challenges"><div>
+		<section>
+			<header>
+				<h2>What sorts of technical problems?</h2>
+			</header>
+			<table class="bullets">
+			  <tr>
+			    <td><span>Static analysis</span></td>
+			    <td><span>Parallel programming</span></td>
+			  </tr>
+			  <tr>
+			    <td><span>Audio/video decoding</span></td>
+			    <td><span>Sandboxing and multiprocess</span></td>
+			  </tr>
+			  <tr>
+			    <td><span>Network protocols</span></td>
+			    <td><span>Garbage collection</span></td>
+			  </tr>
+			  <tr>
+			    <td><span>JIT compilation</span></td>
+			    <td><span>Multi-language integration</span></td>
+			  </tr>
+			  <tr>
+			    <td colspan="2"><span>Distributed synchronization</span></td>
+			  </tr>
+			</table>
+		</section>
+	</div></div>
+
+	<div class="slide" id="nonchallenge"><div>
+		<section>
+			<header>
+				<h2>That's an intimidating list.</h2>
+			</header>
+			<p>More generally, we get to work on:</p>
+			<table class="bullets">
+			  <tr>
+			    <td><span>Evolving web standards</span></td>
+			    <td><span>Performance improvements</span></td>
+			  </tr>
+			  <tr>
+			    <td><span>Memory usage</span></td>
+			    <td><span>Native platform integration</span></td>
+			  </tr>
+			  <tr>
+			    <td><span>Privacy improvements</span></td>
+			    <td><span>Cross-platform constraints</span></td>
+			  </tr>
+			  <tr>
+			    <td><span>Internationalization</span></td>
+			    <td><span>Minimizing attack surface</span></td>
+			  </tr>
+			  <tr>
+			    <td><span>Backwards compatibility</span><td/>
+			  </tr>
+			</table>
+		</section>
+	</div></div>
+
+	<div class="slide" id="divein"><div>
+		<section>
+			<header>
+				<h2>Getting Involved</h2>
+			</header>
+			<p>There are two main ways to do this:</p>
+			<ul>
+			  <li>Join a team and work on their projects</li>
+			  <li>Work on assorted tasks that interest you</li>
+			</ul>
+		</section>
+	</div></div>
+
+	<div class="slide" id="join"><div>
+		<section>
+			<header>
+				<h2>Join a team</h2>
+			</header>
+			<p><a href="http://whatcanidoformozilla.org">whatcanidoformozilla.org</a></p>
+			<p>Find relevant teams based on required skills.</p>
+			<p>Follow links to instructions for how to join that team.</p>
+		</section>
+	</div></div>
+
+	<div class="slide" id="tasks"><div>
+		<section>
+			<header>
+				<h2>Fix assorted tasks</h2>
+			</header>
+			<p><a href="http://www.joshmatthews.net/bugsahoy/">Bugs Ahoy!</a></p>
+			<p>Find relevant tasks based on areas of interest.</p>
+			<p>Each task has an associated mentor to help you succeed.</p>
+		</section>
+	</div></div>
+
+	<div class="slide" id="where"><div>
+		<section>
+			<header>
+				<h2>Where does it happen?</h2>
+			</header>
+			<p><a href="http://bugzilla.mozilla.org">Bugzilla</a>: where tasks are tracked, patches attached, and reviews sought and given (here's an <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=832411">example</a>).</p>
+			<p><strong><em>Lots</em></strong> of communication happens on <a href="http://irc.mozilla.org">irc.mozilla.org.</a> Newcomers and oldcomers are welcome in <code>#introduction</code>.</p>
+		</section>
+	</div></div>
+
+	<div class="slide" id="where2"><div>
+		<section>
+			<header>
+				<h2>Where does it happen?</h2>
+			</header>
+			Other popular IRC channels:
+			  <ul class="smaller">
+			    <li><code>#developers</code> - high traffic, general Gecko-related development</li>
+			    <li><code>#jsapi</code> - JavaScript engine development</li>
+			    <li><code>#gfx</code> - graphics/rendering discussion</li>
+			    <li><code>#content</code> - DOM implementation</li>
+			    <li><code>#fx-team</code> - Firefox frontend development</li>
+			    <li><code>#devtools</code> - Firefox web developer tools team</li>
+			    <li><code>#necko</code> - Networking stack development</li>
+			    <li><code>#mobile</code> - Firefox for Android development</li>
+			    <li><code>#b2g</code> - Firefox OS development</li>
+			  </ul>
+		</section>
+	</div></div>
+
+	<div class="slide" id="how"><div>
+		<section>
+			<header>
+				<h2>How does it happen?</h2>
+			</header>
+			<ol>
+			  <li>Find a bug in Bugzilla that you want to fix.</li>
+			  <li>Leave a comment with your intentions.</li>
+			  <li><a href="https://developer.mozilla.org/en-US/docs/Developer_Guide/How_to_Submit_a_Patch#Attaching_the_patch">Attach a patch</a> to the bug ("Add an attachment").</li>
+			  <li>Add the <code>review?</code> flag to the attachment, targetted at your mentor (or someone mentioned a lot in <code>hg log</code>).</li>
+			</ol>
+		</section>
+	</div></div>
+
+	<div class="slide" id="how2"><div>
+		<section>
+			<header>
+				<h2>How does it happen?</h2>
+			</header>
+			<ol>
+			  <li>If you receive <code>review+</code> (AKA r+), it's ready to be committed.</li>
+			  <li>Address all code review comments and attach a new version.</li>
+			  <li>Request a new review if you did not receive <code>review+</code>.</li>
+			  <li>Ask your reviewer to commit your patch for you.</li>
+			</ol>
+			<h5><em><strong>When confused, ask someone.</em></strong></h5>
+			<p><code>#introduction</code> is a very helpful place for these questions.</p>
+		</section>
+	</div></div>
+
+	<div class="slide" id="build"><div>
+		<section>
+			<header>
+				<h2>Building Firefox from scratch</h2>
+			</header>
+			<p>There's a <a href="https://developer.mozilla.org/en/Simple_Firefox_build">wiki page</a> that has everything you need.
+			<!--<p>However, to show how easy it can be:</p>-->
+			<table class="smaller bullets">
+			  <tr>
+			    <td><span>Bootstrap:</span></td>
+			    <td><code>$ wget https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py && python bootstrap.py</code></td>
+			  </tr>
+			  <tr>
+			    <td><span>Clone:</span></td>
+			    <td><code>$ hg clone https://hg.mozilla.org/mozilla-central</code></td>
+			  </tr>
+			  <tr>
+			    <td><span>Build:</span></td>
+			    <td><code>$ ./mach build</code></td>
+			  </tr>
+			  <tr>
+			    <td><span>Run:</span></td>
+			    <td><code>$ ./mach run</code></td>
+			  </tr>
+			</table><br>
+			<p class="smaller">Full builds take 15 minutes to 1-2 hours depending on hardware.</p>
+		</section>
+	</div></div>
+
+	<div class="slide" id="parts"><div>
+		<section>
+			<header>
+				<h2>Overview of <a href="http://ehsan.github.com/how-browsers-work/">Firefox's parts</a></h2>
+			</header>
+			<ul>
+			  <li><strong>User interface</strong><span class="smaller"> - initiate a page load via URL bar (<a href="http://mxr.mozilla.org/mozilla-central/source/browser/">browser/</a>, <a href="http://mxr.mozilla.org/mozilla-central/source/toolkit/">toolkit/</a>)</span></li>
+			  <li><strong>Networking</strong><span class="smaller"> - make HTTP(S) request, handle response (<a href="http://mxr.mozilla.org/mozilla-central/source/netwerk/">netwerk/</a>)</span></li>
+			  <li><strong>HTML parser</strong><span class="smaller"> - interpret response, create DOM tree (<a href="http://mxr.mozilla.org/mozilla-central/source/parser/">parser/</a>)</span></li>
+			  <li><strong>Layout</strong><span class="smaller"> - style elements of the tree, lay out result (<a href="http://mxr.mozilla.org/mozilla-central/source/layout/">layout/</a>)</span></li>
+			  <li><strong>Graphics</strong><span class="smaller"> - draw the result of layout onscreen as fast as possible (<a href="http://mxr.mozilla.org/mozilla-central/source/gfx/">gfx/</a>, <a href="http://mxr.mozilla.org/mozilla-central/source/image/">image/</a>)</span></li>
+			  <li><strong>JavaScript engine</strong><span class="smaller"> - execute JS found on the page (<a href="http://mxr.mozilla.org/mozilla-central/source/js/">js/</a>)</span></li>
+			  <li><strong>DOM implementation</strong><span class="smaller"> - make DOM APIs behave as specified, dispatch events for web content (<a href="http://mxr.mozilla.org/mozilla-central/source/dom/">dom/</a>, <a href="http://mxr.mozilla.org/mozilla-central/source/content/">content/</a>)</span></li>
+			</ul>
+		</section>
+	</div></div>
+
+	<div class="slide" id="find"><div>
+		<section>
+			<header>
+				<h2>Finding what you need</h2>
+			</header>
+			<p><a href="http://mxr.mozilla.org/mozilla-central/">MXR</a> is your friend, as is <a href="http://dxr.mozilla.org/">DXR</a> (with a <a href="http://featherweightmusings.blogspot.com/2014/01/a-rough-guide-to-dxr.html">guide</a>).</p>
+			<!--<u>Recommended learning/searching strategies:</u>-->
+			  <ul>
+			    <li>Search for user-facing strings - menu item labels, dialog text, button labels, etc. (<a href="http://www.joshmatthews.net/blog/2012/01/answering-questions/">case study</a>)</li>
+			    <li><a href="https://bugzilla.mozilla.org/userprefs.cgi?tab=component_watch">Watch</a> relevant Bugzilla components</li>
+			    <li>Ask questions in <code>#introduction</code></li>
+			    <li>Talk to your mentor, if you're working on a <a href="http://www.joshmatthews.net/bugsahoy/">mentored task</a></li>
+			</ul></p>
+		</section>
+	</div></div>	
+
+	<div class="slide" id="testing"><div>
+		<section>
+			<header>
+				<h2>Tests</h2>
+			</header>
+			<p>We have a lot of tests, and a lot of <a href="https://developer.mozilla.org/en-US/docs/Mozilla_automated_testing">testing frameworks</a>.</p>
+			<ul class="smaller">
+			  <li><code>./mach mochitest-plain</code>: web content tests</li>
+			  <li><code>./mach mochitest-chrome</code>: web content tests with elevated privileges</li>
+			  <li><code>./mach mochitest-browser</code>: browser UI tests with elevated privileges</li>
+			  <li><code>./mach mochitest-a11y</code>: accessibility tests</li>
+			  <li><code>./mach reftest</code>: rendering/layout comparison tests</li>
+			  <li><code>./mach crashtest</code>: tests that don't crash</li>
+			  <li><code>./mach xpcshell-test</code>: JS-only tests that run in a limited environment (no DOM)</li>
+			</ul>
+		</section>
+	</div></div>	
+
+	<div class="slide" id="testing2"><div>
+		<section>
+			<header>
+				<h2>Tryserver</h2>
+			</header>
+  <p>Ask your mentor to <a href="https://wiki.mozilla.org/ReleaseEngineering/TryServer#Pushing_to_try">submit your patches</a> to our build farm.</p>
+  <p>You can also (and should!) <a href="http://www.mozilla.org/hacking/committer/">request limited commit access</a> to do so yourself.</p>
+		</section>
+	</div></div>	
+
+	<div class="slide" id="worked"><div>
+		<section>
+			<header>
+				<h2>Worked Examples</h2>
+			</header>
+			<ol>
+			  <li>Adding an <code>init</code> method to the JS mozContacts API</li>
+			  <!--<li>Defining a new BlobEvent type for web content</li>-->
+			  <li>Creating an internal interface for use by C++ and JS</li>
+			</ol>
+		</section>
+	</div></div>	
+
+	<div class="slide" id="worked1"><div>
+		<section>
+			<header>
+				<h2>mozContact.init()</h2>
+			</header>
+			<p>mozContacts API defined by WebIDL (<a href="http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Contacts.webidl">Contacts.webidl</a>):</p>
+			<pre class="code"><span class="keyword">interface</span> mozContact {
+  <span class="keyword">attribute</span> DOMString? sex;
+  <span class="keyword">attribute</span> DOMString? genderIdentity;
+  <span class="keyword">attribute</span> sequence&lt;ContactAddress&gt;? adr;
+  <span class="keyword">void</span> setMetadata(DOMString id, Date? updated);
+};</pre>
+		</section>
+	</div></div>
+
+	<div class="slide" id="worked2"><div>
+		<section>
+			<header>
+				<h2>mozContact.init()</h2>
+			</header>
+			<p>Need to introduce an init method for compatibility reasons:</p>
+			<pre class="code"><span class="keyword">interface</span> mozContact {
+  ...
+  <span class="keyword">void</span> setMetadata(DOMString id, Date? updated);
+
+  <span class="keyword">void</span> init(<span class="keyword">optional</span> ContactProperties properties);
+};</pre>
+		</section>
+	</div></div>	
+
+	<div class="slide" id="worked3"><div>
+		<section>
+			<header>
+				<h2>Meanwhile, in <a href="http://mxr.mozilla.org/mozilla-central/source/dom/contacts/ContactManager.js">ContactManager.js</a>:</h2>
+			</header>
+			<p>Next we need an implementation:</p>
+			<pre class="code"><span class="keyword">function</span> Contact() { }
+Contact.prototype = {
+  setMetadata: <span class="keyword">function</span>(aId, aUpdated) {
+    ...
+  }
+};</pre>
+		</section>
+	</div></div>	
+
+	<div class="slide" id="worked4"><div>
+		<section>
+			<header>
+				<h2>Meanwhile, in <a href="http://mxr.mozilla.org/mozilla-central/source/dom/contacts/ContactManager.js">ContactManager.js</a>:</h2>
+			</header>
+			<p>Add the new method:</p>
+			<pre class="code">Contact.prototype = {
+  setMetadata: <span class="keyword">function</span>(aId, aUpdated) {
+  },
+  init: <span class="keyword">function</span>(aProperties) {
+    Components.utils.reportError(<span class="string">"deprecated"</span>);
+  }
+};</pre>
+		</section>
+	</div></div>	
+
+	<div class="slide" id="worked5"><div>
+		<section>
+			<header>
+				<h2>Homework:</h2>
+			</header>
+			<p>Read the <a href="https://bugzilla.mozilla.org/attachment.cgi?id=8359285&action=diff">complete patch</a> (it's quite short).</p>
+			<p>It also demonstrates automated tests for the new method.</p>
+			<p>Read through <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=951766">bug 951766</a> to see the full process.</p>
+		</section>
+	</div></div>
+
+	<div class="slide" id="worked6"><div>
+		<section>
+			<header>
+				<h2>The Network Seer</h2>
+			</header>
+			<p>Want to create a module that can improve network preloading.</p>
+			<p>Needs to see all requests and learn user habits.</p>
+			<p>It should not be accessible to arbitrary web content.</p>
+		</section>
+	</div></div>
+
+	<div class="slide" id="worked7"><div>
+		<section>
+			<header>
+				<h2>nsINetworkSeer.idl</h2>
+			</header>
+			<p>nsINetworkSeer interface defined by IDL (<a href="http://mxr.mozilla.org/mozilla-central/source/netwerk/base/public/nsINetworkSeer.idl">nsINetworkSeer.idl</a>):</p>
+			<pre class="code"><span class="keyword">interface</span> nsINetworkSeer : nsISupports {
+  <span class="keyword">void</span> reset();
+  <span class="keyword">void</span> learn(<span class="keyword">in</span> nsIURI targetURI);
+};</pre>
+		</section>
+	</div></div>
+
+	<div class="slide" id="xpcom"><div>
+		<section>
+			<header>
+				<h2>Digression: XPCOM</h2>
+			</header>
+			<p>XPCOM uses interfaces to interact with "components."
+			<p>eg. <code>nsIChannel</code> provides common interface for:</p>
+			  <ul>
+			    <li><code>nsHttpChannel</code> (http://)</li>
+			    <li><code>nsFtpChannel</code> (ftp://)</li>
+			    <li><code>nsFileChannel</code> (file://)</li>
+			</ul>
+		</section>
+	</div></div>
+
+	<div class="slide" id="xpcom2"><div>
+		<section>
+			<header>
+				<h2>Digression: XPCOM</h2>
+			</header>
+  <p>Similarly, <code>nsIGeolocationProvider</code> provides interface for
+    <ul>
+      <li><code>NetworkGeolocationProvider</code>, JS component that initiates an XMLHttpRequest to Google's service</li>
+      <li><code>GonkGPSGeolocationProvider</code>, C++ component that uses hardware GPS</li>
+  </ul></p>
+		</section>
+	</div></div>
+
+	<div class="slide" id="worked8"><div>
+		<section>
+			<header>
+				<h2>Seer.h</h2>
+			</header>
+			<p>Implemented by C++ (<a href="http://mxr.mozilla.org/mozilla-central/source/netwerk/base/src/Seer.h">Seer.h/Seer.cpp</a>):</p>
+			<pre class="code"><span class="keyword">#include</span> <span class="string">"nsINetworkSeer.h"</span>
+<span class="keyword">class</span> Seer : <span class="keyword">public</span> nsINetworkSeer {
+<span class="keyword">public:</span>
+  NS_DECL_ISUPPORTS
+  NS_DECL_NSINETWORKSEER
+  nsCOMPtr&lt;nsIThread&gt; mIOThread;
+};</pre>
+		</section>
+	</div></div>
+
+	<div class="slide" id="worked8.1"><div>
+		<section>
+			<header>
+				<h2>Seer.h</h2>
+			</header>
+			<p>Implemented by C++ (<a href="http://mxr.mozilla.org/mozilla-central/source/netwerk/base/src/Seer.h">Seer.h/Seer.cpp</a>):</p>
+			<pre class="code"><span class="current"><span class="keyword">#include</span> <span class="string">"nsINetworkSeer.h"</span></span>
+<span class="keyword">class</span> Seer : <span class="keyword">public</span> nsINetworkSeer {
+<span class="keyword">public:</span>
+  NS_DECL_ISUPPORTS
+  NS_DECL_NSINETWORKSEER
+  nsCOMPtr&lt;nsIThread&gt; mIOThread;
+};</pre>
+		</section>
+	</div></div>
+
+	<div class="slide" id="worked8.2"><div>
+		<section>
+			<header>
+				<h2>Seer.h</h2>
+			</header>
+			<p>Implemented by C++ (<a href="http://mxr.mozilla.org/mozilla-central/source/netwerk/base/src/Seer.h">Seer.h/Seer.cpp</a>):</p>
+			<pre class="code"><span class="keyword">#include</span> <span class="string">"nsINetworkSeer.h"</span>
+<span class="current"><span class="keyword">class</span> Seer : <span class="keyword">public</span> nsINetworkSeer {</span>
+<span class="keyword">public:</span>
+  NS_DECL_ISUPPORTS
+  NS_DECL_NSINETWORKSEER
+  nsCOMPtr&lt;nsIThread&gt; mIOThread;
+};</pre>
+		</section>
+	</div></div>
+
+	<div class="slide" id="worked8.3"><div>
+		<section>
+			<header>
+				<h2>Seer.h</h2>
+			</header>
+			<p>Implemented by C++ (<a href="http://mxr.mozilla.org/mozilla-central/source/netwerk/base/src/Seer.h">Seer.h/Seer.cpp</a>):</p>
+			<pre class="code"><span class="keyword">#include</span> <span class="string">"nsINetworkSeer.h"</span>
+<span class="keyword">class</span> Seer : <span class="keyword">public</span> nsINetworkSeer {
+<span class="keyword">public:</span>
+<span class="current">  NS_DECL_ISUPPORTS
+  NS_DECL_NSINETWORKSEER</span>
+  nsCOMPtr&lt;nsIThread&gt; mIOThread;
+};</pre>
+		</section>
+	</div></div>
+
+	<div class="slide" id="worked8.4"><div>
+		<section>
+			<header>
+				<h2>Seer.h</h2>
+			</header>
+			<p>Implemented by C++ (<a href="http://mxr.mozilla.org/mozilla-central/source/netwerk/base/src/Seer.h">Seer.h/Seer.cpp</a>):</p>
+			<pre class="code"><span class="keyword">#include</span> <span class="string">"nsINetworkSeer.h"</span>
+<span class="keyword">class</span> Seer : <span class="keyword">public</span> nsINetworkSeer {
+<span class="keyword">public:</span>
+  NS_DECL_ISUPPORTS
+  NS_DECL_NSINETWORKSEER
+<span class="current">  nsCOMPtr&lt;nsIThread&gt; mIOThread;</span>
+};</pre>
+		</section>
+	</div></div>
+
+	<div class="slide" id="worked9"><div>
+		<section>
+			<header>
+				<h2>Seer.cpp</h2>
+			</header>
+			<p>Implemented by C++ (<a href="http://mxr.mozilla.org/mozilla-central/source/netwerk/base/src/Seer.cpp">Seer.h/Seer.cpp</a>):</p>
+			<pre class="code">NS_IMETHODIMP</span> Seer::Learn(nsIURI* targetURI) {
+    nsRefPtr&lt;SeerLearnEvent&gt; event =
+      <span class="keyword">new</span> SeerLearnEvent(targetURI);
+    mIOThread->Dispatch(event, NS_DISPATCH_NORMAL);
+    <span class="keyword">return</span> NS_OK;
+}</pre>
+		</section>
+	</div></div>
+
+	<div class="slide" id="worked9.1"><div>
+		<section>
+			<header>
+				<h2>Seer.cpp</h2>
+			</header>
+			<p>Implemented by C++ (<a href="http://mxr.mozilla.org/mozilla-central/source/netwerk/base/src/Seer.cpp">Seer.h/Seer.cpp</a>):</p>
+			<pre class="code"><span class="current">NS_IMETHODIMP Seer::Learn(nsIURI* targetURI) {</span>
+    nsRefPtr&lt;SeerLearnEvent&gt; event =
+      <span class="keyword">new</span> SeerLearnEvent(targetURI);
+    mIOThread->Dispatch(event, NS_DISPATCH_NORMAL);
+    <span class="keyword">return</span> NS_OK;
+}</pre>
+		</section>
+	</div></div>
+
+	<div class="slide" id="worked9.2"><div>
+		<section>
+			<header>
+				<h2>Seer.cpp</h2>
+			</header>
+			<p>Implemented by C++ (<a href="http://mxr.mozilla.org/mozilla-central/source/netwerk/base/src/Seer.cpp">Seer.h/Seer.cpp</a>):</p>
+			<pre class="code">NS_IMETHODIMP Seer::Learn(nsIURI* targetURI) {
+    <span class="current">nsRefPtr&lt;SeerLearnEvent&gt; event =
+      <span class="keyword">new</span> SeerLearnEvent(targetURI);</span>
+    mIOThread->Dispatch(event, NS_DISPATCH_NORMAL);
+    <span class="keyword">return</span> NS_OK;
+}</pre>
+		</section>
+	</div></div>
+
+	<div class="slide" id="worked9.3"><div>
+		<section>
+			<header>
+				<h2>Seer.cpp</h2>
+			</header>
+			<p>Implemented by C++ (<a href="http://mxr.mozilla.org/mozilla-central/source/netwerk/base/src/Seer.cpp">Seer.h/Seer.cpp</a>):</p>
+			<pre class="code">NS_IMETHODIMP Seer::Learn(nsIURI* targetURI) {
+    nsRefPtr&lt;SeerLearnEvent&gt; event =
+      <span class="keyword">new</span> SeerLearnEvent(targetURI);
+    <span class="current">mIOThread->Dispatch(event, NS_DISPATCH_NORMAL);</span>
+    <span class="keyword">return</span> NS_OK;
+}</pre>
+		</section>
+	</div></div>
+
+	<div class="slide" id="worked9.4"><div>
+		<section>
+			<header>
+				<h2>Seer.cpp</h2>
+			</header>
+			<p>Implemented by C++ (<a href="http://mxr.mozilla.org/mozilla-central/source/netwerk/base/src/Seer.cpp">Seer.h/Seer.cpp</a>):</p>
+			<pre class="code">NS_IMETHODIMP Seer::Learn(nsIURI* targetURI) {
+    nsRefPtr&lt;SeerLearnEvent&gt; event =
+      <span class="keyword">new</span> SeerLearnEvent(targetURI);
+    mIOThread->Dispatch(event, NS_DISPATCH_NORMAL);
+    <span class="current"><span class="keyword">return</span> NS_OK;</span>
+}</pre>
+		</section>
+	</div></div>
+
+        <div class="slide" id="worked10"><div>
+		<section>
+			<header>
+				<h2>Let's use it</h2>
+			</header>
+			<p>From C++, we can use <u>Seer</u>. From JS, we use <u>nsINetworkSeer</u>.</p>
+			<pre class="code"><span class="keyword">try</span> {
+  <span class="keyword">var</span> seer =
+    Components.classes[<span class="string">"@mozilla.org/network/seer;1"</span>]
+      .getService(Components.interfaces.nsINetworkSeer);
+  seer.reset();
+} <span class="keyword">catch</span> (e) { }</pre>
+		</section>
+	</div></div>
+
+        <div class="slide" id="worked10.1"><div>
+		<section>
+			<header>
+				<h2>Let's use it</h2>
+			</header>
+			<p>From C++, we can use <u>Seer</u>. From JS, we use <u>nsINetworkSeer</u>.</p>
+			<pre class="code"><span class="keyword">try</span> {
+  <span class="keyword">var</span> seer =
+    <span class="current">Components.classes[<span class="string">"@mozilla.org/network/seer;1"</span>]</span>
+      .getService(Components.interfaces.nsINetworkSeer);
+  seer.reset();
+} <span class="keyword">catch</span> (e) { }</pre>
+		</section>
+	</div></div>
+
+        <div class="slide" id="worked10.2"><div>
+		<section>
+			<header>
+				<h2>Let's use it</h2>
+			</header>
+			<p>From C++, we can use <u>Seer</u>. From JS, we use <u>nsINetworkSeer</u>.</p>
+			<pre class="code"><span class="keyword">try</span> {
+  <span class="keyword">var</span> seer =
+    Components.classes[<span class="string">"@mozilla.org/network/seer;1"</span>]
+      <span class="current">.getService(Components.interfaces.nsINetworkSeer);</span>
+  seer.reset();
+} <span class="keyword">catch</span> (e) { }</pre>
+		</section>
+	</div></div>
+
+	<div class="slide" id="worked10.5"><div>
+		<section>
+			<header>
+				<h2>Seer.cpp</h2>
+			</header>
+			<p>Report an error instead:</p>
+			<pre class="code">NS_IMETHODIMP</span> Seer::Learn(nsIURI* targetURI) {
+  if (DatabaseMissing()) {
+    <span class="keyword">return</span> NS_ERROR_NOT_AVAILABLE;
+  }
+  ...
+}</pre>
+		</section>
+	</div></div>
+
+        <div class="slide" id="worked10.75"><div>
+		<section>
+			<header>
+				<h2>Let's use it</h2>
+			</header>
+			<p>What happens when an error is returned from C++?</p>
+			<pre class="code">...
+<span class="keyword">try</span> {
+  seer.learn(document.documentURIObject);
+} <span class="keyword">catch</span> (e) {
+  Components.utils.reportError(<span class="string">"Whoops."</span>);
+}</pre>
+		</section>
+	</div></div>
+
+	<div class="slide" id="worked11"><div>
+		<section>
+			<header>
+				<h2>Homework:</h2>
+			</header>
+			<p>Skim the <a href="https://bugzilla.mozilla.org/attachment.cgi?id=821311&action=diff">main patch</a> (it's quite long).</p>
+			<p>It's a good, contained example of implementing a feature.</p>
+			<p>Read through remaining <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=881804">integration patches</a> to see how the new module is used (they're quite short).</p>
+		</section>
+	</div></div>
+
+	<div class="slide" id="wrapup"><div>
+		<section>
+			<header>
+				<h2>Next steps</h2>
+			</header>
+			<p>You now know much more than most people who see Mozilla's code for the first time.</p>
+			<p>Your turn.</p>
+			<p></p>
+			<p>Remember: when in doubt, <strong><em>ask someone!</em></strong> The Mozilla community <a href="https://developer.mozilla.org/en/Introduction">awaits you</a>.</p>
+		</section>
+	</div></div>
+
+	<div class="slide" id="ThankYou"><div>
+		<section>
+			<header>
+				<h2>Developing Firefox for Fun and Profit</h2>
+			</header>
+			<p>Josh Matthews, Mozilla Engineer and Community Builder</p>
+			<ul>
+				<li><a href="http://twitter.com/lastontheboat">@lastontheboat</a></li>
+				<li><a href="mailto:josh@joshmatthews.net">josh@joshmatthews.net</a></li>
+			</ul>
+			<p>Slides: <a href="http://www.joshmatthews.net/cusec14/">http://joshmatthews.net/cusec14/</a></p>
+		</section>
+	</div></div>
+
+	<!--<div class="slide" id="Header"><div>
+		<section>
+			<header>
+				<h2>Header</h2>
+			</header>
+			<p>This <code>&lt;tool&gt;</code> is provided <strong>without</strong> warranty, guarantee, or much in the way of explanation. Note that use of this tool may or may not crash <em>your</em> browser.</p>
+			<p><a href="examples/index.htm" target="_blank">This link will be opened in the new tab</a></p>
+		</section>
+	</div></div>
+
+	<div class="slide" id="TwoLinesHeader"><div>
+		<section>
+			<header>
+				<h2>Two rows.<br>Mighty heading</h2>
+			</header>
+			<p>This <code>&lt;tool&gt;</code> is provided <strong>without</strong> warranty, guarantee, or much in the way of explanation. Note that use of this tool may or may not crash <em>your</em> browser.</p>
+		</section>
+	</div></div>
+
+	<div class="slide" id="UnorderedList"><div>
+		<section>
+			<header>
+				<h2>Unordered List</h2>
+			</header>
+			<ul>
+				<li>This tool is provided</li>
+				<li>Without warranty, guarantee</li>
+				<li>Or much in the way of explanation
+					<ol>
+						<li>Note that use of this tool</li>
+						<li>May or may not crash your browser</li>
+						<li>Lock up your machine</li>
+					</ol>
+				</li>
+				<li>Erase your hard drive.</li>
+			</ul>
+		</section>
+	</div></div>
+
+
+	<div class="slide" id="OrderedList"><div>
+		<section>
+			<header>
+				<h2>Ordered List</h2>
+			</header>
+			<ol>
+				<li>Note that use of this tool</li>
+				<li>Erase your hard drive.</li>
+				<li>May or may not crash your browser
+					<ul>
+						<li>This tool is provided</li>
+						<li>Or much in the way of explanation</li>
+						<li>Without warranty, guarantee</li>
+					</ul>
+				</li>
+				<li>Lock up your machine</li>
+			</ol>
+		</section>
+	</div></div>
+
+
+	<div class="slide" id="InTheMiddle"><div>
+		<section>
+			<header>
+				<h2>In the Middle</h2>
+			</header>
+			<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 512 512" class="middle">
+				<path fill="#0174A7" d="m315 259l18-18 179 179v-36l-161-161 18-18 143 143v-36l-125-125 18-18 107 107v-225c0-28-23-51-51-51h-410c-28 0-51 23-51 51v410c0 28 23 51 51 51h191c17-25 14-59-8-81l-63-63-63-63c-55-55-55-145-0-199 55-55 144-55 199 0l9 7h109l-163 163v-107l-9-9c-25-25-66-25-91-0-25 25-25 66 0 91l63 63 63 63c37 37 49 89 37 135h136c28 0 51-23 51-51v-5l-197-197z"/>
+			</svg>
+		</section>
+	</div></div>
+
+
+	<div class="slide cover" id="FitToHeight"><div>
+		<section>
+			<header>
+				<h2>Fit to height</h2>
+			</header>
+			<img src="pictures/picture.jpg" alt="">
+		</section>
+	</div></div>
+
+	<div class="slide cover w" id="FitToWidth"><div>
+		<section>
+			<header>
+				<h2>Fit to width</h2>
+			</header>
+			<img src="pictures/picture.jpg" alt="">
+		</section>
+	</div></div>
+
+	<div class="slide" id="CodeSample"><div>
+		<section>
+			<header>
+				<h2>Code Sample</h2>
+			</header>
+			<pre>
+				<code>&lt;html lang="en-US"&gt;</code>
+				<code><mark>&lt;head&gt;</mark></code>
+				<code>    &lt;title&gt;Shower&lt;/title&gt;</code>
+				<code>    &lt;meta charset="<mark class="important">UTF-8</mark>"&gt;</code>
+				<code>    &lt;link rel="stylesheet" href="s/screen.css"&gt;</code>
+				<code>    &lt;script src="j/jquery.js"&gt;&lt;/script&gt;</code>
+				<code><mark>&lt;/head&gt;</mark></code>
+			</pre>
+		</section>
+	</div></div>
+
+	<div class="slide" id="CodeNotes"><div>
+		<section>
+			<header>
+				<h2>Code Notes</h2>
+			</header>
+			<pre>
+				<code><mark>&lt;html</mark> lang="en-US"&gt;</code>
+			</pre>
+			<p class="note">May or may not crash your browser</p>
+			<pre>
+				<code><mark>&lt;meta</mark> charset="<mark>UTF-8</mark>"&gt;</code>
+			</pre>
+			<p class="note">Lock up your machine</p>
+		</section>
+	</div></div>
+
+	<div class="slide shout" id="Shout"><div>
+		<section>
+			<header>
+				<h2>Warning<br>Message</h2>
+			</header>
+		</section>
+	</div></div>
+
+	<div class="slide shout" id="Demo"><div>
+		<section>
+			<header>
+				<h2><a href="examples/index.htm" target="_blank">Demo</a></h2>
+			</header>
+		</section>
+	</div></div>
+
+	<div class="slide" id="BlockQuote"><div>
+		<section>
+			<header>
+				<h2>Block Quote</h2>
+			</header>
+			<blockquote>
+				<p>This tool is provided without warranty, guarantee, or much in the way of explanation. Note that use of this tool may or may not crash your browser, lock up your machine, erase your hard drive.</p>
+			</blockquote>
+		</section>
+	</div></div>
+
+	<div class="slide" id="ThankYou"><div>
+		<section>
+			<header>
+				<h2>Shower Presentation Template</h2>
+			</header>
+			<p>Vadim Makeev, Opera Software</p>
+			<p>Mozilla styling by Chris Heilmann, Mozilla</p>
+			<ul>
+				<li><a href="http://pepelsbey.net">pepelsbey.net</a></li>
+				<li><a href="http://twitter.com/pepelsbey">twitter.com/pepelsbey</a></li>
+				<li><a href="mailto:pepelsbey@gmail.com">pepelsbey@gmail.com</a></li>
+			</ul>
+			<p>Shower: <a href="http://github.com/pepelsbey/shower">github.com/pepelsbey/shower</a></p>
+		</section>
+	</div></div>-->
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<div class="progress"><div></div></div>
+	<script src="scripts/script.js"></script>
+	<!-- Copyright © 2010–2012 Vadim Makeev — pepelsbey.net -->
+	<!-- Photos by John Carey — fiftyfootshadows.net -->
+</body>
+</html>
